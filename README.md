@@ -4,7 +4,7 @@ Simple C# state machine that accepts enums as states and transition triggers. Al
 
 Usage example:
 
-```
+```csharp
 public class Foo
 {
     private enum State
