@@ -1,6 +1,6 @@
 # UnityStateMachine
 
-Simple C# state machine that accepts enums as states and transition triggers. Configurable through a fluent interface.
+Simple C# state machine that accepts enums as states and transition triggers. Allowed triggers as well as entry, exit and update methods per state are configurable through a fluent interface.
 
 Usage example:
 
@@ -29,11 +29,17 @@ public class Foo
             .Allow(Trigger.RunTask,State.Running);
             
         stateMachine.ConfigureState(State.Running)
-            .Allow(Trigger.EndTask,State.Idle);
+            .Allow(Trigger.EndTask,State.Idle)
+            .SetOnEntry(RunningEntry);
             
-        Console.WriteLine(stateMachine.CurrentState);//Outputs Idle
-        stateMachine.PerformTransition(Trigger.StartTask);
-        Console.WriteLine(stateMachine.CurrentState);//Outputs Running
+        Console.WriteLine(stateMachine.CurrentState);//Outputs "Idle"
+        stateMachine.PerformTransition(Trigger.StartTask);//Outputs "Starting to run"
+        Console.WriteLine(stateMachine.CurrentState);//Outputs "Running"
+    }
+    
+    private RunningEntry(State previous)
+    {
+        Console.WriteLine("Starting to run");
     }
 }
 ```
